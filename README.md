@@ -1,7 +1,7 @@
 # TeXploR-quasi
 
 [![ICRA 2026](https://img.shields.io/badge/ICRA%202026-Accepted-success)](https://icra2026.org/)
-[![arXiv](https://img.shields.io/badge/arXiv-Coming%20Soon-b31b1b.svg)](https://arxiv.org) (Coming soon)
+[![arXiv](https://img.shields.io/badge/arXiv-Coming%20Soon-b31b1b.svg)](https://arxiv.org)
 
 This repository contains the system design documentation and quasistatic simulation for **TeXploR2** (Tensegrity eXploratory Robot 2), a curved-link tensegrity robot capable of dynamic rolling locomotion through internal mass shifting. This work represents a significant advancement over the [original TeXploR](https://github.com/lefaris/TeXploR-geometric).  This repo is supplemental for **System Design of Tensegrity Robot Exhibiting Non-Intuitive Behavior** accepted to IEEE ICRA 2026.
 
