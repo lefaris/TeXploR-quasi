@@ -113,7 +113,7 @@ TeXploR-quasi/
 - **6 ball bearings**: For smooth rolling along arc curvature
 - **Herringbone gear teeth**: For smooth power transmission at high loads
 
-![Motor Carriage](media/motor_carriage.png)
+![Motor Carriage](media/motor_carriage.PNG)
 
 ### Arc Design
 
@@ -122,7 +122,7 @@ TeXploR-quasi/
 - **Symmetric mass distribution**: Minimizes model discrepancies
 - **98mm width**: Minimum for NEMA23 integration
 
-![Motor Track](media/motor_track.png)
+![Motor Track](media/motor_track.PNG)
 
 ---
 
