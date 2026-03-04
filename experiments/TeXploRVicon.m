@@ -58,18 +58,18 @@ arc2X = [(arc2Left1(:,1)+arc2Right1(:,1))/2, (arc2Left2(:,1)+arc2Right2(:,1))/2,
 arc2Y = [(arc2Left1(:,2)+arc2Right1(:,2))/2, (arc2Left2(:,2)+arc2Right2(:,2))/2, (arc2Left3(:,2)+arc2Right3(:,2))/2, (arc2Left4(:,2)+arc2Right4(:,2))/2];
 arc2Z = [(arc2Left1(:,3)+arc2Right1(:,3))/2, (arc2Left2(:,3)+arc2Right2(:,3))/2, (arc2Left3(:,3)+arc2Right3(:,3))/2, (arc2Left4(:,3)+arc2Right4(:,3))/2];
 
-%Plot the discrete points from arc 1
-figure(1)
-plot3(arc1Left1(:,1),arc1Left1(:,2),arc1Left1(:,3))
-hold on
-plot3(arc1Left2(:,1),arc1Left2(:,2),arc1Left2(:,3))
-hold on
-plot3(arc1Left3(:,1),arc1Left3(:,2),arc1Left3(:,3))
-hold on
-plot3(arc1Left4(:,1),arc1Left4(:,2),arc1Left4(:,3))
+% %Plot the discrete points from arc 1
+% figure(1)
+% plot3(arc1Left1(:,1),arc1Left1(:,2),arc1Left1(:,3))
+% hold on
+% plot3(arc1Left2(:,1),arc1Left2(:,2),arc1Left2(:,3))
+% hold on
+% plot3(arc1Left3(:,1),arc1Left3(:,2),arc1Left3(:,3))
+% hold on
+% plot3(arc1Left4(:,1),arc1Left4(:,2),arc1Left4(:,3))
 
 j=0;
-figure(2)
+figure(1)
 for i=1:10:840
     plot3(arc1X(i,1:4),arc1Y(i,1:4),arc1Z(i,1:4),Color=[0 j 1])
     hold on
@@ -93,10 +93,10 @@ end
 % 
 % figure(3)
 % plot3(arc2Left1(:,1),arc2Left1(:,2),arc2Left1(:,3), 'LineWidth',4)
-
-% figure(2)
 % 
-% % Plotting the curved strut
+% % figure(2)
+% % 
+% % % Plotting the curved strut
 % semiCircle2D = @(r) [r*cos(pi:0.01:2*pi);r*sin(pi:0.01:2*pi);...
 %     zeros(size(cos(pi:0.01:2*pi)));ones(size(cos(pi:0.01:2*pi)))];
 % plotXYZ = @(XYZ) plot3(XYZ(:,1),XYZ(:,2),XYZ(:,3));
@@ -108,3 +108,19 @@ end
 % xyzRotated = TMatB*xyz;
 % h=plotXYZ(xyzRotated');
 % set(h,'Color','k','LineWidth',10)
+
+
+% figure(2)
+% 
+% % Plotting the curved strut
+semiCircle2D = @(r, center) [r*cos(pi:0.01:2*pi);r*sin(pi:0.01:2*pi);...
+    zeros(size(cos(pi:0.01:2*pi)));ones(size(cos(pi:0.01:2*pi)))];
+plotXYZ = @(XYZ) plot3(XYZ(:,1),XYZ(:,2),XYZ(:,3));
+xyz = semiCircle2D(r, center);
+h=plotXYZ(xyz');
+% xlim
+hold on
+set(h,'Color','b','LineWidth',10)
+xyzRotated = TMatB*xyz;
+h=plotXYZ(xyzRotated');
+set(h,'Color','k','LineWidth',10)
