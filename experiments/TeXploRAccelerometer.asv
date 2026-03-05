@@ -1,0 +1,26 @@
+%Read in Vicon accelerometer data for TeXploR
+
+opts = detectImportOptions('Test 1.csv');
+%preview('impact_full.csv',opts)
+% opts.SelectedVariableNames = [3:50]; 
+% opts.DataRange = '6:845';
+% M = readmatrix('impact_full.csv',opts)
+M = readmatrix('Test 1.csv','Range','A2:H19131');
+
+%Read arc 1 data:
+time = M(1:19125, 1);
+accel_x = M(1:19125, 6);
+accel_y = M(1:19125, 7);
+accel_z = M(1:19125, 8);
+x = zeros(19125);
+for i = 1:19125
+    x(i) = 
+
+
+% Initial plotting
+figure
+plot(time, accel_x, 'b+', time, accel_y, 'r+', time, accel_z, 'g+')
+legend
+title('Accelerometer Data for Shifting Mass 1 During Smooth Rolling')
+xlabel('Timestep \mu s')
+ylabel('Acceleration (m/s^2)')

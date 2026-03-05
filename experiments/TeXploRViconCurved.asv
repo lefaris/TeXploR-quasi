@@ -39,14 +39,6 @@ arc1p2 = [(arc1Left2(:,1)+arc1Right2(:,1))/2, (arc1Left2(:,2)+arc1Right2(:,2))/2
 arc1p3 = [(arc1Left3(:,1)+arc1Right3(:,1))/2, (arc1Left3(:,2)+arc1Right3(:,2))/2, (arc1Left3(:,3)+arc1Right3(:,3))/2];
 arc1p4 = [(arc1Left4(:,1)+arc1Right4(:,1))/2, (arc1Left4(:,2)+arc1Right4(:,2))/2, (arc1Left4(:,3)+arc1Right4(:,3))/2];
 
-arc2p1 = [(arc2Left1(:,1)+arc2Right1(:,1))/2, (arc2Left1(:,2)+arc2Right1(:,2))/2, (arc2Left1(:,3)+arc2Right1(:,3))/2];
-arc2p2 = [(arc2Left2(:,1)+arc2Right2(:,1))/2, (arc2Left2(:,2)+arc2Right2(:,2))/2, (arc2Left2(:,3)+arc2Right2(:,3))/2];
-arc2p3 = [(arc2Left3(:,1)+arc2Right3(:,1))/2, (arc2Left3(:,2)+arc2Right3(:,2))/2, (arc2Left3(:,3)+arc2Right3(:,3))/2];
-arc2p4 = [(arc2Left4(:,1)+arc2Right4(:,1))/2, (arc2Left4(:,2)+arc2Right4(:,2))/2, (arc2Left4(:,3)+arc2Right4(:,3))/2];
-
-arc1 = [arc1p1, arc1p2, arc1p3, arc1p4];
-arc1 = [arc1p1, arc1p2, arc1p3, arc1p4];
-
 %Read arc 2 data:
 arc2Left1 = M(1:840, 25:27);
 arc2Left2 = M(1:840, 28:30);
@@ -70,6 +62,14 @@ arc2RightZ = [arc2Right1(:,3),arc2Right2(:,3),arc2Right3(:,3),arc2Right4(:,3)];
 arc2X = [(arc2Left1(:,1)+arc2Right1(:,1))/2, (arc2Left2(:,1)+arc2Right2(:,1))/2, (arc2Left3(:,1)+arc2Right3(:,1))/2, (arc2Left4(:,1)+arc2Right4(:,1))/2];
 arc2Y = [(arc2Left1(:,2)+arc2Right1(:,2))/2, (arc2Left2(:,2)+arc2Right2(:,2))/2, (arc2Left3(:,2)+arc2Right3(:,2))/2, (arc2Left4(:,2)+arc2Right4(:,2))/2];
 arc2Z = [(arc2Left1(:,3)+arc2Right1(:,3))/2, (arc2Left2(:,3)+arc2Right2(:,3))/2, (arc2Left3(:,3)+arc2Right3(:,3))/2, (arc2Left4(:,3)+arc2Right4(:,3))/2];
+
+arc2p1 = [(arc2Left1(:,1)+arc2Right1(:,1))/2, (arc2Left1(:,2)+arc2Right1(:,2))/2, (arc2Left1(:,3)+arc2Right1(:,3))/2];
+arc2p2 = [(arc2Left2(:,1)+arc2Right2(:,1))/2, (arc2Left2(:,2)+arc2Right2(:,2))/2, (arc2Left2(:,3)+arc2Right2(:,3))/2];
+arc2p3 = [(arc2Left3(:,1)+arc2Right3(:,1))/2, (arc2Left3(:,2)+arc2Right3(:,2))/2, (arc2Left3(:,3)+arc2Right3(:,3))/2];
+arc2p4 = [(arc2Left4(:,1)+arc2Right4(:,1))/2, (arc2Left4(:,2)+arc2Right4(:,2))/2, (arc2Left4(:,3)+arc2Right4(:,3))/2];
+
+arc1 = [arc1p1, arc1p2, arc1p3, arc1p4];
+arc2 = [arc2p1, arc2p2, arc2p3, arc2p4];
 
 %Plot the discrete points from arc 1
 figure(1)
@@ -121,22 +121,21 @@ end
 
 %Plot the discrete points from arc 1
 figure(3)
-plot3(arc1Left1(:,1),arc1Left1(:,2),arc1Left1(:,3))
-hold on
-plot3(arc1Left2(:,1),arc1Left2(:,2),arc1Left2(:,3))
-hold on
-plot3(arc1Left3(:,1),arc1Left3(:,2),arc1Left3(:,3))
-hold on
-plot3(arc1Left4(:,1),arc1Left4(:,2),arc1Left4(:,3))
-hold on
+% plot3(arc1Left1(:,1),arc1Left1(:,2),arc1Left1(:,3))
+% hold on
+% plot3(arc1Left2(:,1),arc1Left2(:,2),arc1Left2(:,3))
+% hold on
+% plot3(arc1Left3(:,1),arc1Left3(:,2),arc1Left3(:,3))
+% hold on
+% plot3(arc1Left4(:,1),arc1Left4(:,2),arc1Left4(:,3))
 j=0;
 
 % And then the realistic curved representation
 for i=1:10:840
-    [center1, radius1, xarc1, yarc1, zarc1] = triangle2semicircle(arc1p1(i,:), arc1p2(i,:), arc1p4(i,:));
+    [center1, radius1, xarc1, yarc1, zarc1] = triangle2semicircle(arc1p1(i,:), arc1p2(i,:), arc1p4(i,:), pi/2, 3*pi/2);
     plot3(xarc1,yarc1,zarc1, 'Color', [0 j 1])
     hold on
-    [center2, radius2, xarc2, yarc2, zarc2] = triangle2semicircle(arc2p1(i,:), arc2p2(i,:), arc2p4(i,:));
+    [center2, radius2, xarc2, yarc2, zarc2] = triangle2semicircle(arc2p1(i,:), arc2p2(i,:), arc2p4(i,:), pi/2, 3*pi/2);
     plot3(xarc2,yarc2,zarc2, 'Color', [1 0 j])
     hold on
     j = j+0.012;
@@ -157,12 +156,32 @@ j=0;
 
 % And then the realistic curved representation
 for i=1:10:840
-    semicircle(P)
-    
-    [center1, radius1, xarc1, yarc1, zarc1] = triangle2semicircle(arc1p1(i,:), arc1p2(i,:), arc1p4(i,:));
+    semicircle(arc1(i,:));
+    hold on
+    semicircle(arc2(i,:));
+    hold on
+    j = j+0.012;
+end
+
+
+%Plot the discrete points from arc 1
+figure(5)
+% plot3(arc1Left1(:,1),arc1Left1(:,2),arc1Left1(:,3))
+% hold on
+% plot3(arc1Left2(:,1),arc1Left2(:,2),arc1Left2(:,3))
+% hold on
+% plot3(arc1Left3(:,1),arc1Left3(:,2),arc1Left3(:,3))
+% hold on
+% plot3(arc1Left4(:,1),arc1Left4(:,2),arc1Left4(:,3))
+% hold on
+j=0;
+
+% And then the realistic curved representation
+for i=1:10:840
+    [center1, radius1, xarc1, yarc1, zarc1] = triangle2semicircle(arc1p1(i,:), arc1p2(i,:), arc1p4(i,:), pi/2, 3*pi/2);
     plot3(xarc1,yarc1,zarc1, 'Color', [0 j 1])
     hold on
-    [center2, radius2, xarc2, yarc2, zarc2] = triangle2semicircle(arc2p1(i,:), arc2p2(i,:), arc2p4(i,:));
+    [center2, radius2, xarc2, yarc2, zarc2] = triangle2semicircle(arc2p1(i,:), arc2p2(i,:), arc2p4(i,:), pi/4, 4*pi/4);
     plot3(xarc2,yarc2,zarc2, 'Color', [1 0 j])
     hold on
     j = j+0.012;
@@ -213,7 +232,7 @@ function [center, radius, x, y, z] = triangle2circle(P1, P2, P3)
 end
 
 % Specify semi-circle vectors?
-function [center, radius, x, y, z] = triangle2semicircle(P1, P2, P3)
+function [center, radius, x, y, z] = triangle2semicircle(P1, P2, P3, tstart, tend)
     % Describe the edges of the triangle by defining two vectors from P1
     u = P2 - P1;
     v = P3 - P1;
@@ -232,7 +251,7 @@ function [center, radius, x, y, z] = triangle2semicircle(P1, P2, P3)
     % 6 variables to parameterize 3D circle
     phi = atan2(normal(2),normal(1)); % azimuth angle, in [-pi, pi]
     theta = atan2(sqrt(normal(1)^2 + normal(2)^2), normal(3)); % zenith angle, in [0,pi]    
-    t = pi/2:pi/32:3*pi/2;
+    t = tstart:pi/32:tend;
     x = center(1) - radius*( cos(t)*sin(phi) + sin(t)*cos(theta)*cos(phi) );
     y = center(2) + radius*( cos(t)*cos(phi) - sin(t)*cos(theta)*sin(phi) );
     z = center(3) + radius*sin(t)*sin(theta);
