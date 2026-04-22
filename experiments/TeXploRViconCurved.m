@@ -120,7 +120,6 @@ end
 
 
 %Plot the discrete points from arc 1
-figure(3)
 % plot3(arc1Left1(:,1),arc1Left1(:,2),arc1Left1(:,3))
 % hold on
 % plot3(arc1Left2(:,1),arc1Left2(:,2),arc1Left2(:,3))
@@ -128,6 +127,7 @@ figure(3)
 % plot3(arc1Left3(:,1),arc1Left3(:,2),arc1Left3(:,3))
 % hold on
 % plot3(arc1Left4(:,1),arc1Left4(:,2),arc1Left4(:,3))
+figure(3)
 j=0;
 
 % And then the realistic curved representation
@@ -183,14 +183,19 @@ j=0;
 
 % And then the realistic curved representation
 for i=1:10:840
-    [center1, radius1, xarc1, yarc1, zarc1] = triangle2semicircle(arc1p1(i,:), arc1p2(i,:), arc1p4(i,:), pi/2, 3*pi/2);
-    plot3(xarc1,yarc1,zarc1, 'Color', [0 j 1])
+    [center1, radius1, xarc1, yarc1, zarc1] = triangle2semicircleMod(arc1p1(i,:), arc1p2(i,:), arc1p4(i,:));
+    plot3(xarc1,yarc1,zarc1, 'Color', [0 j 1], 'LineWidth',3)
     hold on
-    [center2, radius2, xarc2, yarc2, zarc2] = triangle2semicircle(arc2p1(i,:), arc2p2(i,:), arc2p4(i,:), 3*pi/4, 7*pi/4);
-    plot3(xarc2,yarc2,zarc2, 'Color', [1 0 j])
+    [center2, radius2, xarc2, yarc2, zarc2] = triangle2semicircleMod(arc2p1(i,:), arc2p2(i,:), arc2p4(i,:));
+    plot3(xarc2,yarc2,zarc2, 'Color', [1 0 j], 'LineWidth',3)
     hold on
     j = j+0.012;
 end
+ax = gca;
+grid on
+ax.GridAlpha = 0.3;
+ax.GridLineWidth = 2;
+title('View')
 % 
 % % figure(2)
 % % 
@@ -290,4 +295,49 @@ function semicircle(P)
     scatter3(P(:,1), P(:,2), P(:,3), 'filled', 'b'); % Original points
     axis equal; grid on;
 
+end
+
+function [center, radius, x, y, z] = triangle2semicircleMod(P1, P2, P4)
+
+    % Vectors in the plane
+    u = P2 - P1;
+    v = P4 - P1;
+
+    % Plane normal
+    normal = cross(u,v);
+    normal = normal / norm(normal);
+
+    % Solve for circle center
+    A = [2*u; 2*v; normal];
+    b = [dot(P2,P2)-dot(P1,P1);
+         dot(P4,P4)-dot(P1,P1);
+         dot(normal,P1)];
+
+    center = (A\b)';
+    radius = norm(center - P1);
+
+    % --- Build orthonormal basis of circle plane ---
+    e1 = (P1 - center);
+    e1 = e1 / norm(e1);
+
+    e2 = cross(normal, e1);
+    e2 = e2 / norm(e2);
+
+    % --- Compute angles of start and end points ---
+    a1 = atan2(dot(P1-center,e2), dot(P1-center,e1));
+    a4 = atan2(dot(P4-center,e2), dot(P4-center,e1));
+
+    % Ensure correct arc direction
+    if a4 < a1
+        a4 = a4 + 2*pi;
+    end
+
+    t = linspace(a1,a4,100);
+
+    % Parametric arc
+    pts = center + radius*(cos(t')*e1 + sin(t')*e2);
+
+    x = pts(:,1);
+    y = pts(:,2);
+    z = pts(:,3);
 end

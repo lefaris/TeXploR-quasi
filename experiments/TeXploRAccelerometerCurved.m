@@ -17,12 +17,15 @@ end
 
 % Initial plotting
 figure
-for j = 1:10:4500
-    plot(x(j), accel_x(j), 'b+', x(j), accel_y(j), 'r+', x(j), accel_z(j), 'g+')
+for j = 1:15:4500
+    plot(x(j), accel_x(j), 'b+', 'MarkerSize', 15, 'LineWidth', 3)
+    plot(x(j), accel_y(j), 'r+', 'MarkerSize', 15, 'LineWidth', 3)
+    plot(x(j), accel_z(j), 'g+', 'MarkerSize', 15, 'LineWidth', 3)
     hold on
 end
+
 ylim([-15 15])
-legend('Acceleration in X', 'Acceleration in Y', 'Acceleration in Z')
+legend('X', 'Y', 'Z')
 title('Accelerometer Data for Shifting Mass 1 During Rolling Impact')
-xlabel('Timesteps (200Hz)')
+xlabel('Frequency (Hz)')
 ylabel('Acceleration (m/s^2)')
